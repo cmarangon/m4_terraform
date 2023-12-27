@@ -1,0 +1,66 @@
+version: "3"
+
+services:
+  api:
+    container_name: "api"
+    restart: always
+    build: ./api/.
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_DATABASE}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - DATABASE_URL=${DATABASE_URL}
+    ports:
+      - 5001:5001
+    volumes:
+      - ./api:/app
+      - /app/node_modules
+    networks:
+      - todo
+
+  redis:
+    container_name: "redis-service"
+    image: redis:alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --save 20 1 --loglevel warning --requirepass mypassword
+    networks:
+      - todo
+
+  db:
+    container_name: "database"
+    build: ./db/
+    restart: always
+    environment:
+      MYSQL_DATABASE: "${DB_DATABASE}"
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_USER: "${DB_USER}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+    ports:
+      - "3306:3306"
+    command: --init-file /data/application/init_db.sql
+    volumes:
+      - ./db/init_db.sql:/data/application/init_db.sql
+    networks:
+      - todo
+
+  client:
+    container_name: "client"
+    build:
+      context: ./client
+    volumes:
+      - ./client:/app
+    command: npm start
+    ports:
+      - "3000:3000"
+
+networks:
+  todo:
+    driver: bridge
