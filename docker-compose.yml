@@ -1,10 +1,20 @@
 version: "3"
 
 services:
+
+  app:
+    container_name: "app"
+    build: https://github.com/cmarangon/m4_terraform_app.git
+    volumes:
+      - ./app:/app
+    command: npm start
+    ports:
+      - "3000:3000"
+
   api:
     container_name: "api"
     restart: always
-    build: ./api/.
+    build: https://github.com/cmarangon/m4_terraform_api.git
     environment:
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
@@ -35,7 +45,7 @@ services:
 
   db:
     container_name: "database"
-    build: ./db/
+    build: ./db
     restart: always
     environment:
       MYSQL_DATABASE: "${DB_DATABASE}"
@@ -50,16 +60,6 @@ services:
       - ./db/init_db.sql:/data/application/init_db.sql
     networks:
       - todo
-
-  app:
-    container_name: "app"
-    build:
-      context: ./app
-    volumes:
-      - ./app:/app
-    command: npm start
-    ports:
-      - "3000:3000"
 
 networks:
   todo:
