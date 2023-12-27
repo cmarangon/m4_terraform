@@ -51,12 +51,12 @@ services:
     networks:
       - todo
 
-  client:
-    container_name: "client"
+  app:
+    container_name: "app"
     build:
-      context: ./client
+      context: ./app
     volumes:
-      - ./client:/app
+      - ./app:/app
     command: npm start
     ports:
       - "3000:3000"
