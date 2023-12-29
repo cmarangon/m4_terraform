@@ -1,0 +1,11 @@
+services:
+  app:
+    build:
+      context: ./app
+      args:
+        REACT_APP_HOST_IP_ADDRESS: 127.0.0.123
+    environment:
+      - REACT_APP_HOST_IP_ADDRESS=127.0.0.123
+
+  api:
+    build: ./api

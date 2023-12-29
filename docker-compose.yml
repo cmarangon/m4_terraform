@@ -5,9 +5,6 @@ services:
   app:
     container_name: "app"
     build: https://github.com/cmarangon/m4_terraform_app.git
-    volumes:
-      - ./app:/app
-    command: npm start
     ports:
       - "3000:3000"
 
@@ -27,9 +24,6 @@ services:
       - DATABASE_URL=${DATABASE_URL}
     ports:
       - 5001:5001
-    volumes:
-      - ./api:/app
-      - /app/node_modules
     networks:
       - todo
 
