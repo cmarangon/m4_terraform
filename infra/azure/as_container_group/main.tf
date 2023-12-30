@@ -18,49 +18,34 @@ resource "azurerm_resource_group" "resource_group" {
   location = "West Europe"
 }
 
-# resource "azurerm_container_registry" "container_registry" {
-#   name                = "m4terraformazurecontainerregistry"
-#   resource_group_name = azurerm_resource_group.resource_group.name
-#   location            = azurerm_resource_group.resource_group.location
-#   sku                 = "Basic"
-#   admin_enabled       = false
-# }
-# resource "azurerm_storage_account" "storage_account" {
-#   name                     = "m4terraformstorageacc"
-#   resource_group_name      = azurerm_resource_group.resource_group.name
-#   location                 = azurerm_resource_group.resource_group.location
-#   account_tier             = "Standard"
-#   account_replication_type = "LRS"
-# }
+# Add storage for db persistency
+resource "azurerm_storage_account" "storage_account" {
+  name                     = "m4terraformstorageacc"
+  resource_group_name      = azurerm_resource_group.resource_group.name
+  location                 = azurerm_resource_group.resource_group.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
 
-# resource "azurerm_storage_share" "storage_share_1" {
-#   name                 = "m4terraformstorageshare1"
-#   storage_account_name = azurerm_storage_account.storage_account.name
-#   quota                = 1
-# }
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
+}
 
-# resource "azurerm_storage_share" "storage_share_2" {
-#   name                 = "m4terraformstorageshare2"
-#   storage_account_name = azurerm_storage_account.storage_account.name
-#   quota                = 1
-# }
+resource "azurerm_storage_share" "storage_share" {
+  name                 = "m4terraformstoragesharedb"
+  storage_account_name = azurerm_storage_account.storage_account.name
+  quota                = 1
 
-# resource "azurerm_storage_share" "storage_share_3" {
-#   name                 = "m4terraformstorageshare3"
-#   storage_account_name = azurerm_storage_account.storage_account.name
-#   quota                = 1
-# }
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
+}
 
-# resource "azurerm_storage_share" "storage_share_4" {
-#   name                 = "m4terraformstorageshare4"
-#   storage_account_name = azurerm_storage_account.storage_account.name
-#   quota                = 1
-# }
-
+# Add container group to put all containers
 resource "azurerm_container_group" "container_group" {
   name                = "m4terraform-demo"
-  location            = azurerm_resource_group.resource_group.location
   resource_group_name = azurerm_resource_group.resource_group.name
+  location            = azurerm_resource_group.resource_group.location
   ip_address_type     = "Public"
   os_type             = "Linux"
 
@@ -136,6 +121,15 @@ resource "azurerm_container_group" "container_group" {
     ports {
       port     = var.db_port
       protocol = "TCP"
+    }
+
+    volume {
+      name = "mysql-data-volume"
+      mount_path = "/var/lib/mysql"
+
+      storage_account_name = azurerm_storage_account.storage_account.name
+      storage_account_key = azurerm_storage_account.storage_account.primary_access_key
+      share_name = azurerm_storage_share.storage_share.name
     }
 
     environment_variables = {
