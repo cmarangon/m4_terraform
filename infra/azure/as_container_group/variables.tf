@@ -1,25 +1,25 @@
 variable "app_port" {
-  type = number
+  type    = number
   default = 3000
 }
 
 variable "api_port" {
-  type = number
+  type    = number
   default = 5001
 }
 
 variable "db_host" {
-  type = string
+  type    = string
   default = "localhost"
 }
 
 variable "db_port" {
-  type = number
+  type    = number
   default = 3306
 }
 
 variable "db_user" {
-  type = string
+  type      = string
   sensitive = true
 }
 
@@ -28,32 +28,32 @@ variable "db_password" {
 }
 
 variable "db_database" {
-  type = string
+  type    = string
   default = "todo_db"
 }
 
 variable "db_root_password" {
-  type = string
+  type      = string
   sensitive = true
 }
 
 variable "database_url" {
-  type = string
+  type      = string
   sensitive = true
 }
 
 variable "redis_password" {
-  type = string
+  type      = string
   sensitive = true
 }
 
 variable "redis_host" {
-  type = string
+  type    = string
   default = "localhost"
 }
 
 variable "redis_port" {
-  type = number
+  type    = number
   default = 6379
 }
 
