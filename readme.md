@@ -43,16 +43,16 @@ class Frontend dark
 1. Run `terraform apply` to set up application in azure cloud
 1. Open `http://<returned ip from terraform>:3000` in browser
 
-### Fazit zu Terraform azurerc
-Mit dem terraform provider `azurerc` konnte ich die Beispielanwendung innerhalb weniger Stunden vollautomatisiert in die Microsoft Cloud deployen. Die Konfiguration `as_separate_services` würde das gesamte Setup etwas eleganter verteilen. Ich konnte sie jedoch nicht abschliessen, da mir am Ende die Zeit ausging.
+### Conclusion on Terraform azurerc
+With the Terraform provider `azurerc`, we were able to deploy the sample application fully automated into the Microsoft Cloud within a few hours. The configuration `as_separate_services` would distribute the entire setup more elegantly. However, we could not complete and test it, as we ran out of time in the end.
 
-**Vorteile:**
-+ Sehr umfangreich an Diensten
-+ Sehr granular einstellbar
-+ Sprechende Fehlermeldungen in Terraform
+**Advantages:**
++ Extensive range of services
++ Highly granular configurability
++ Clear error messages in Terraform
 
-**Nachteile:**
-- Dokumentation von azurerc zum Teil sehr knapp gehalten. Viele Details müssen in Azure direkt geprüft werden.
-- Dokumentation von azurerc zum Teil inkonsequent
-    - Beispiel: In `azurerc_container_app` wird der Arbeitsspeicher mit der Endung `Gi` angegeben. In der `azurerm_container_group` hingegen fällt die Endung weg.
-- Limitiert in der Benennung von Ressourcen. *(Max. 24 alphanummerische Zeichen)*
+**Disadvantages:**
+- Documentation for azurerc is sometimes very brief. Many details need to be checked directly in Azure.
+- Documentation for azurerc is sometimes inconsistent
+    - Example: In `azurerc_container_app`, the memory is specified with the suffix `Gi`. In `azurerm_container_group`, however, the suffix is omitted.
+- Limited in the naming of resources. *(Max. 24 alphanumeric characters)*
