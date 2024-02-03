@@ -38,3 +38,9 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+aws.code-workspace
+.terraform.lock.hcl
+
+# MacOS
+.**/.DS_Store
+
