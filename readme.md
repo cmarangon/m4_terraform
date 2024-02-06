@@ -85,7 +85,7 @@ With the Terraform provider `azurerc`, we were able to deploy the sample applica
 - Documentation for azurerc is sometimes very brief. Many details need to be checked directly in Azure.
 - Documentation for azurerc is sometimes inconsistent
     - Example: In `azurerc_container_app`, the memory is specified with the suffix `Gi`. In `azurerm_container_group`, however, the suffix is omitted.
-- Limited in the naming of resources. *(Max. 24 alphanumeric characters)*
+- *Disadvantage from Azure: limited in the naming of resources. (Max. 24 alphanumeric characters)*
 
 ## AWS
 
@@ -108,6 +108,7 @@ The next steps are:
 * Add the project images to ECR
 * Create the containers in the EC2
 * Make the containers available
+* Analyse the [AWS Fargate](https://aws.amazon.com/pt/fargate/) with Terraform (as it is a serverless solution, it can simplify the provision in AWS for this case). It can be considred an error by starting to provision everything related to network (VPC, subnets, route table, internet gateway, security group) before do a better research related to AWS Fargate.
 
 **Advantages:**
 + Terraform can also provide an extensive range of services for AWS (the whole infrastructure can be configured for AWS)
@@ -120,4 +121,8 @@ The next steps are:
 - Documentation of aws provider is also brief. With the documentation it is possible to know the main properties, but there is no details how each resource should be connected with each other.
 - Requires deeper know-how about AWS to build an infrastructure correctly (but the learning of Terraform can be done in parellel with AWS)
 - Learning of HCL (Hashicorp Configuration Language) is necessary
-- Configuration of policies requires more know-how and more
+- Configuration of security policies requires more know-how and practice
+
+# Conclusion
+Terraform is very helpful and powerful to provision the infrastructure as code in different kind of cloud providers, but it should be used when the cloud provider know-how and practice are already consolidated, it means when the user already knows how the Cloud provider work.
+Terraform in combination with a version management system and other tools like Ansible can be very useful to increase the DevOps maturity of a company.
