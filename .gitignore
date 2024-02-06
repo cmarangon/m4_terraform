@@ -1,3 +1,7 @@
+# all hidden files and folders
+.*
+.*/
+
 app
 api
 
@@ -40,7 +44,3 @@ override.tf.json
 terraform.rc
 aws.code-workspace
 .terraform.lock.hcl
-
-# MacOS
-.**/.DS_Store
-
